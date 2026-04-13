@@ -1,0 +1,9 @@
+{
+  "name": "LifeOS",
+  "description": "A modern, full-stack social media platform for sharing real-life experiences, routines, and behind-the-scenes moments.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}

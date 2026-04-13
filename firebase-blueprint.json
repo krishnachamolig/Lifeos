@@ -1,0 +1,207 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the LifeOS platform",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "username": { "type": "string", "description": "Unique username" },
+        "email": { "type": "string", "format": "email" },
+        "bio": { "type": "string" },
+        "photoURL": { "type": "string", "format": "uri" },
+        "followersCount": { "type": "number" },
+        "followingCount": { "type": "number" },
+        "likesCount": { "type": "number" },
+        "viewsCount": { "type": "number" },
+        "postsCount": { "type": "number" },
+        "monetizationStatus": { "type": "string", "enum": ["none", "pending", "approved", "rejected"] },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "username", "email", "role", "createdAt"]
+    },
+    "MonetizationRequest": {
+      "title": "Monetization Request",
+      "description": "Request to unlock monetization",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "documents": { "type": "object" },
+        "bankDetails": { "type": "object" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "fullName", "status", "createdAt"]
+    },
+    "Earnings": {
+      "title": "Earnings",
+      "description": "User earnings data",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "total": { "type": "number" },
+        "monthly": { "type": "number" },
+        "daily": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "total", "updatedAt"]
+    },
+    "WithdrawRequest": {
+      "title": "Withdraw Request",
+      "description": "Request to withdraw earnings",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "amount": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "paid", "rejected"] },
+        "bankDetails": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "amount", "status", "createdAt"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "A post shared by a user (image, video, or text)",
+      "type": "object",
+      "properties": {
+        "authorUid": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorPhoto": { "type": "string" },
+        "type": { "type": "string", "enum": ["image", "video", "text"] },
+        "contentUrl": { "type": "string" },
+        "text": { "type": "string" },
+        "location": { "type": "string" },
+        "category": { "type": "string", "enum": ["Work", "Travel", "Study", "Hustle", "Lifestyle"] },
+        "likesCount": { "type": "number" },
+        "commentsCount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorUid", "type", "createdAt"]
+    },
+    "LiveStatus": {
+      "title": "Live Status",
+      "description": "Real-time 'What I'm doing right now' status",
+      "type": "object",
+      "properties": {
+        "authorUid": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorPhoto": { "type": "string" },
+        "activity": { "type": "string" },
+        "location": { "type": "string" },
+        "category": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorUid", "activity", "createdAt"]
+    },
+    "Chat": {
+      "title": "Chat",
+      "description": "A conversation between users",
+      "type": "object",
+      "properties": {
+        "participants": { "type": "array", "items": { "type": "string" } },
+        "lastMessage": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["participants", "updatedAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "A message within a chat",
+      "type": "object",
+      "properties": {
+        "chatId": { "type": "string" },
+        "senderUid": { "type": "string" },
+        "text": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["chatId", "senderUid", "createdAt"]
+    },
+    "Story": {
+      "title": "Story",
+      "description": "A temporary 24h story post",
+      "type": "object",
+      "properties": {
+        "authorUid": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorPhoto": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "expiresAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorUid", "imageUrl", "createdAt", "expiresAt"]
+    },
+    "Follow": {
+      "title": "Follow",
+      "description": "Follow relationship",
+      "type": "object",
+      "properties": {
+        "followerId": { "type": "string" },
+        "followingId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["followerId", "followingId", "createdAt"]
+    },
+    "Like": {
+      "title": "Like",
+      "description": "Post like",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["postId", "userId", "createdAt"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "Post comment",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "userPhoto": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["postId", "userId", "text", "createdAt"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "User notification",
+      "type": "object",
+      "properties": {
+        "recipientId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "senderPhoto": { "type": "string" },
+        "type": { "type": "string", "enum": ["like", "comment", "follow", "message"] },
+        "postId": { "type": "string" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["recipientId", "senderId", "type", "read", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": { "schema": "User", "description": "User profiles" },
+    "/posts/{postId}": { "schema": "Post", "description": "Shared content" },
+    "/lives/{liveId}": { "schema": "LiveStatus", "description": "Real-time activities" },
+    "/chats/{chatId}": { "schema": "Chat", "description": "Conversations" },
+    "/chats/{chatId}/messages/{messageId}": { "schema": "Message", "description": "Messages in a chat" },
+    "/stories/{storyId}": { "schema": "Story", "description": "Temporary stories" },
+    "/monetization_requests/{requestId}": { "schema": "MonetizationRequest", "description": "Monetization applications" },
+    "/earnings/{userId}": { "schema": "Earnings", "description": "User earnings" },
+    "/withdraw_requests/{requestId}": { "schema": "WithdrawRequest", "description": "Withdrawal requests" },
+    "/follows/{followId}": { "schema": "Follow", "description": "User follow relationships" },
+    "/likes/{likeId}": { "schema": "Like", "description": "Post likes" },
+    "/comments/{commentId}": { "schema": "Comment", "description": "Post comments" },
+    "/notifications/{notificationId}": { "schema": "Notification", "description": "User notifications" }
+  }
+}
